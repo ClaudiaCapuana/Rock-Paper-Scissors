@@ -1,6 +1,9 @@
 const yourScore = document.querySelector("#yourScore");
 const cptScore = document.querySelector("#cptScore");
 const btnContainer = document.querySelector("#btnContainer");
+const resultText = document.querySelector("#result");
+let usercpt = 0;
+let computercpt = 0;
 
 btnContainer.addEventListener("click", (e) => {
   const randNumber = Math.floor(Math.random() * 3 + 1);
@@ -8,27 +11,33 @@ btnContainer.addEventListener("click", (e) => {
 
   if (e.target.matches("#rock")) {
     if (computerChoice(randNumber) === "rock") {
-      alert("it's a tie");
+      resultText.innerText = "it's a tie";
     } else if (computerChoice(randNumber) === "paper") {
-      alert("you lose!!!");
+      resultText.innerText = "You lose, paper beats rock";
+      cptScore.innerText = ++computercpt;
     } else if (computerChoice(randNumber) === "scissors") {
-      alert("you win!!!");
+      resultText.innerText = "You win, rock beats scissors";
+      yourScore.innerText = ++usercpt;
     }
   } else if (e.target.matches("#paper")) {
     if (computerChoice(randNumber) === "rock") {
-      alert("you win!!!");
+      resultText.innerText = "you win paper beats rock";
+      yourScore.innerText = ++usercpt;
     } else if (computerChoice(randNumber) === "paper") {
-      alert("it's a tie");
+      resultText.innerText = "it's a tie";
     } else if (computerChoice(randNumber) === "scissors") {
-      alert("you lose!!!");
+      resultText.innerText = "you lose scissors beats paper";
+      cptScore.innerText = ++computercpt;
     }
   } else if (e.target.matches("#scissors")) {
     if (computerChoice(randNumber) === "rock") {
-      alert("you lose!!!");
+      resultText.innerText = "you lose rock beat paper";
+      cptScore.innerText = ++computercpt;
     } else if (computerChoice(randNumber) === "paper") {
-      alert("you win");
+      resultText.innerText = "you win scissors beats paper";
+      yourScore.innerText = ++usercpt;
     } else if (computerChoice(randNumber) === "scissors") {
-      alert("it's a tie");
+      resultText.innerText = "it's a tie";
     }
   }
 });
