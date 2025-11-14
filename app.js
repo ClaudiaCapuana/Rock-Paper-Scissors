@@ -1,65 +1,83 @@
-const yourScore = document.querySelector("#yourScore");
-const cptScore = document.querySelector("#cptScore");
-const btnContainer = document.querySelector("#btnContainer");
-const resultText = document.querySelector("#result");
-let usercpt = 0;
-let computercpt = 0;
+const btnContainer = document.getElementById("btnContainer");
+const myScore = document.getElementById("myScore");
+const computerScore = document.getElementById("computerScore");
+const resultSentence = document.getElementById("result");
+let userCpt = 0;
+let compCpt = 0;
 
 btnContainer.addEventListener("click", (e) => {
   const randNumber = Math.floor(Math.random() * 3 + 1);
-  console.log(randNumber);
+  console.log("Computer choice: " + computerChoice(randNumber));
 
-  if (e.target.matches("#rock")) {
-    if (computerChoice(randNumber) === "rock") {
-      resultText.innerText = "it's a tie";
-    } else if (computerChoice(randNumber) === "paper") {
-      resultText.innerText = "You lose, paper beats rock";
-      cptScore.innerText = ++computercpt;
-    } else if (computerChoice(randNumber) === "scissors") {
-      resultText.innerText = "You win, rock beats scissors";
-      yourScore.innerText = ++usercpt;
-    }
-  } else if (e.target.matches("#paper")) {
-    if (computerChoice(randNumber) === "rock") {
-      resultText.innerText = "you win paper beats rock";
-      yourScore.innerText = ++usercpt;
-    } else if (computerChoice(randNumber) === "paper") {
-      resultText.innerText = "it's a tie";
-    } else if (computerChoice(randNumber) === "scissors") {
-      resultText.innerText = "you lose scissors beats paper";
-      cptScore.innerText = ++computercpt;
-    }
-  } else if (e.target.matches("#scissors")) {
-    if (computerChoice(randNumber) === "rock") {
-      resultText.innerText = "you lose rock beat paper";
-      cptScore.innerText = ++computercpt;
-    } else if (computerChoice(randNumber) === "paper") {
-      resultText.innerText = "you win scissors beats paper";
-      yourScore.innerText = ++usercpt;
-    } else if (computerChoice(randNumber) === "scissors") {
-      resultText.innerText = "it's a tie";
-    }
+  switch (e.target.id) {
+    case "rock":
+      rockCondition(randNumber);
+      break;
+    case "paper":
+      paperCondition(randNumber);
+      break;
+    case "scissors":
+      scissorsCondition(randNumber);
+      break;
+
+    default:
+      break;
   }
 });
 
+//Computer choice
 function computerChoice(number) {
   let cptChoice;
-
   switch (number) {
     case 1:
       cptChoice = "rock";
       break;
-
     case 2:
       cptChoice = "paper";
-      break;
 
+      break;
     case 3:
       cptChoice = "scissors";
+
       break;
 
     default:
       break;
   }
   return cptChoice;
+}
+//Dynamical result
+function result(sentence, scorer = null, cpt = null) {
+  resultSentence.innerText = sentence;
+  if (scorer && cpt) {
+    scorer.innerText = cpt;
+  }
+}
+//Win/Lose Conditions
+function rockCondition(randNumber) {
+  if (computerChoice(randNumber) === "rock") {
+    result("It's a tie !");
+  } else if (computerChoice(randNumber) === "paper") {
+    result("You lose ! paper beat rock.", computerScore, ++compCpt);
+  } else if (computerChoice(randNumber) === "scissors") {
+    result("You Win ! rock beat scissors", myScore, ++userCpt);
+  }
+}
+function paperCondition(randNumber) {
+  if (computerChoice(randNumber) === "rock") {
+    result("You Win ! paper beat rock.", myScore, ++userCpt);
+  } else if (computerChoice(randNumber) === "paper") {
+    result("It's a tie !");
+  } else if (computerChoice(randNumber) === "scissors") {
+    result("You Lose ! paper beat rock.", computerScore, ++compCpt);
+  }
+}
+function scissorsCondition(randNumber) {
+  if (computerChoice(randNumber) === "rock") {
+    result("You Lose ! rock beat scissors.", computerScore, ++compCpt);
+  } else if (computerChoice(randNumber) === "paper") {
+    result("You Win ! scissors beat paper.", myScore, ++userCpt);
+  } else if (computerChoice(randNumber) === "scissors") {
+    result("It's a tie");
+  }
 }
